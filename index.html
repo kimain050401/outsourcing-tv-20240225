@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200&display=swap');
+        *{
+            font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif !important;
+            /* word-break: keep-all; */
+        }
+        html, body{
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif !important;
+        }
+        input, textarea, button{
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            border-radius: 0;
+            -webkit-border-radius: 0;
+            -moz-border-radius: 0;
+            border: none;
+        }
+        input[type="text"]{
+            width: calc(100vw - 80px);
+            max-width: 520px;
+            color: #005EC3;
+            font-weight: 500;
+            background-color: #F3F5FE;
+            padding: 20px;
+            font-size: 20px;
+            border-bottom: 2px solid #005EC3;
+            box-sizing: border-box;
+            margin-top: 40px;
+        }
+        input::placeholder{
+            color: #BBC2D8;
+        }
+        input[type="button"]{
+            border-radius: 6px;
+            background-color: #005EC3;
+            color: #FFFFFF;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 6px 26px 6px 26px;
+            margin-top: 10px;
+        }
+        h1{
+            padding: 0;
+            margin: 10px 0 0 0;
+            font-weight: 500;
+        }
+        h2{
+            padding: 0;
+            margin: 4px 0 0 0;
+            font-weight: 500;
+        }
+        h3{
+            padding: 0;
+            margin: 0 0 0 0;
+            font-weight: 500;
+            font-size: 22px;
+            display: inline-block;
+        }
+        table{
+            width: 100%;
+            margin: 40px 0 40px 0;
+        }
+        table, th, td {
+            border: 1px solid #BEC9FF;
+            border-collapse: collapse;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 500;
+            padding: 10px 0 10px 0;
+        }
+        th{
+            background-color: #005EC3;
+            color: #FFFFFF;;
+        }
+    </style>
+</head>
+<body>
+    <div style="display: inline-block; width: 100vw; max-width: 600px;">
+        <div style="display: inline-block; width: 100vw; max-width: 600px; background-color: white; text-align: left; padding: 40px; box-sizing: border-box;">
+            <img style="width: 80px;" src="https://moji.or.kr/img/intellectual-property/moji_newlogo_333333_text.png">
+            <br><br><br>
+            <h1 style="box-sizing: border-box;"><b>모델명</b>을 검색하시고</h1>
+            <h1>베르켐 상품과</h1>
+            <h1><b style="color: #005EC3;">결합여부</b>를 확인해 보세요!</h1>
+            <input type="text" placeholder="TV 모델명을 입력해 보세요">
+            <div style="text-align: left; margin-top: 40px; height: 150px; overflow-x: auto; white-space: nowrap; margin-bottom: -30px;">
+                <div style="display: inline-block; text-align: center; padding: 0 10px 10px 10px; border-bottom: 3px solid #005EC3;">
+                    <img style="width: 80px; border-radius: 80px;" src="/img/item1.png">
+                    <br>
+                    <h3 style="color: #005EC3;">끌레어</h3>
+                </div>
+                <div style="display: inline-block; text-align: center; padding: 0 10px 11px 10px; border-bottom: 1px solid #B9B9B9;">
+                    <img style="width: 80px; border-radius: 80px;" src="/img/item2.png">
+                    <br>
+                    <h3 style="color: #B9B9B9;">비토</h3>
+                </div>
+                <div style="display: inline-block; text-align: center; padding: 0 10px 11px 10px; border-bottom: 1px solid #B9B9B9;">
+                    <img style="width: 80px; border-radius: 80px;" src="/img/item3.png">
+                    <br>
+                    <h3 style="color: #B9B9B9;">윌러</h3>
+                </div>
+                <div style="display: inline-block; text-align: center; padding: 0 10px 11px 10px; border-bottom: 1px solid #B9B9B9;">
+                    <img style="width: 80px; border-radius: 80px;" src="/img/item4.png">
+                    <br>
+                    <h3 style="color: #B9B9B9;">로버</h3>
+                </div>
+            </div>
+        </div>
+        <div style="display: inline-block; width: 100vw; max-width: 600px; background-color: #F3F5FE; text-align: left; padding: 40px; box-sizing: border-box;">
+            <div style="background-color: #FFFFFF; padding: 20px; box-sizing: border-box; border-radius: 10px; text-align: center; box-shadow: 2px 2px 4px #CCD0D9;">
+                <h2>고객님의 TV/모니터는</h2>
+                <h2><b style="color: #E6E6E6;">(</b><b style="color: #005EC3;">끌레어</b><b style="color: #E6E6E6;">)</b><b>와 거치가 </b><b style="color: #36B448;">가능</b><b>합니다.</b></h2>
+                <input type="button" value="구매하러 가기">
+            </div>
+        </div>
+        <div style="display: inline-block; width: 100vw; max-width: 600px; background-color: #FFFFFF; text-align: left; box-sizing: border-box;">
+            <table>
+                <tr>
+                    <th></th>
+                    <td>자사제품 <span style="color: #FF0000;">기준</span></td>
+                    <td style="color: #005EC3;">고객님 모델 스펙</td>
+                </tr>
+                <tr>
+                    <th>모니터 무게</th>
+                    <td id="our1"></td>
+                    <td id="you1"></td>
+                </tr>
+                <tr>
+                    <th>베사 사이즈</th>
+                    <td id="our2"></td>
+                    <td id="you2"></td>
+                </tr>
+                <tr>
+                    <th>베사 나사</th>
+                    <td id="our3"></td>
+                    <td id="you3"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
