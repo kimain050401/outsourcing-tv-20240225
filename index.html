@@ -80,9 +80,24 @@
             background-color: #005EC3;
             color: #FFFFFF;;
         }
+        .box{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
     </style>
 </head>
 <body>
+    <div id="loading" style="position: fixed; display: none; width: 100vw; max-width: 500px;">
+        <div style="width: 100vw; height: 100vh; max-width: 500px; background-color: #999999aa; text-align: center; padding: 40px; box-sizing: border-box;" class="box">
+            <div style="width: 100vw; max-width: 500px; background-color: white; padding: 30px 0 30px 0;">
+                <img style="width: 100px;" src="img/logo.png">
+                <p style="color: black; font-size: 20px; font-weight: 500; margin: 10px 0 8px 0; padding: 0;">모델을 찾고 있어요!</p>
+                <p style="color: black; font-size: 16px; font-weight: 500; margin: 0; padding: 0;">잠시만 기다려 주세요.</p>
+            </div>
+        </div>
+    </div>
     <div style="display: inline-block; width: 100vw; max-width: 500px;">
         <div style="display: inline-block; width: 100vw; max-width: 500px; background-color: white; text-align: left; padding: 40px; box-sizing: border-box;">
             <img style="width: 90px;" src="img/logo.png">
@@ -91,8 +106,8 @@
             <h1>베르켐 상품과</h1>
             <h1><b style="color: #005EC3;">결합여부</b>를 확인해 보세요!</h1>
             <div style="width: calc(100vw - 80px); max-width: 420px; color: #005EC3; font-weight: 500; background-color: #F3F5FE; font-size: 20px; border-bottom: 2px solid #005EC3; box-sizing: border-box; margin-top: 40px;">
-                <input type="text" placeholder="TV 모델명을 입력해 보세요">
-                <img src="img/search.png" style="width: 30px; margin-bottom: -6px;">
+                <input type="text" id="tvmodel" placeholder="TV 모델명을 입력해 보세요">
+                <img src="img/search.png" style="width: 30px; margin-bottom: -6px; cursor: pointer;" onclick="search_data()">
             </div>
             <div style="text-align: left; margin-top: 40px; height: 150px; overflow-x: auto; white-space: nowrap; margin-bottom: -30px;">
                 <div id="item1_border" style="display: inline-block; text-align: center; padding: 0 12px 10px 12px; border-bottom: 3px solid #005EC3;" onclick="item_click('item1')">
@@ -120,8 +135,8 @@
         <div style="display: inline-block; width: 100vw; max-width: 500px; background-color: #F3F5FE; text-align: left; padding: 40px; box-sizing: border-box;">
             <div style="background-color: #FFFFFF; padding: 20px; box-sizing: border-box; border-radius: 10px; text-align: center; box-shadow: 2px 2px 4px #CCD0D9;">
                 <h2>고객님의 TV/모니터는</h2>
-                <h2><b style="color: #E6E6E6;">(</b><b style="color: #005EC3;" id="item_text">끌레어</b><b style="color: #E6E6E6;">)</b><b>와 거치가 </b><b style="color: #36B448;">가능</b><b>합니다.</b></h2>
-                <input type="button" value="구매하러 가기">
+                <h2><b style="color: #E6E6E6;">(</b><b style="color: #005EC3;" id="item_text">끌레어</b><b style="color: #E6E6E6;">)</b><b>와 거치가 </b><b style="color: #36B448;" id="ifable">가능</b><b>합니다.</b></h2>
+                <input type="button" value="구매하러 가기" id="paygo" onclick="location.href='https://smartstore.naver.com/berkem/products/8788156517'">
             </div>
         </div>
         <div style="display: inline-block; width: 100vw; max-width: 500px; background-color: #FFFFFF; text-align: left; box-sizing: border-box;">
@@ -133,23 +148,29 @@
                 </tr>
                 <tr>
                     <th>모니터 무게</th>
-                    <td id="our1">16.4kg</td>
-                    <td id="you1">16.4kg</td>
+                    <td id="our1">10kg</td>
+                    <td id="you1"></td>
                 </tr>
                 <tr>
                     <th>베사 사이즈</th>
-                    <td id="our2">300*200</td>
-                    <td id="you2">300*200</td>
+                    <td id="our2">-</td>
+                    <td id="you2"></td>
                 </tr>
                 <tr>
                     <th>베사 나사</th>
-                    <td id="our3">M6x12</td>
-                    <td id="you3">상 : M6x45<br>하 : ST6x23</td>
+                    <td id="our3">-</td>
+                    <td id="you3"></td>
                 </tr>
             </table>
         </div>
     </div>
     <script>
+        item1_data = "";
+        item2_data = "";
+        item3_data = "";
+        item4_data = "";
+        item_size = "";
+
         function item_click(item){
             document.getElementById('item1_border').style.borderBottom = '1px solid #B9B9B9';
             document.getElementById('item2_border').style.borderBottom = '1px solid #B9B9B9';
@@ -167,6 +188,114 @@
             document.getElementById(item+'_border').style.padding = '0 12px 10px 12px';
             document.getElementById(item+'_text').style.color = '#005EC3';
             document.getElementById('item_text').innerText = document.getElementById(item+'_text').innerText;
+            if(item == "item1"){
+                document.getElementById('paygo').setAttribute('onclick', "location.href='https://smartstore.naver.com/berkem/products/8788156517'");
+                document.getElementById('our1').innerText = "10kg";
+                document.getElementById('our2').innerText = "-";
+                document.getElementById('our3').innerText = "-";
+                document.getElementById('ifable').innerText = "불가능";
+                document.getElementById('ifable').style.color = "#FF0000";
+                if(item1_data != ""){
+                    document.getElementById('our2').innerText = item_size;
+                    document.getElementById('our3').innerHTML = item1_data;
+                    document.getElementById('ifable').innerText = "가능";
+                    document.getElementById('ifable').style.color = "#36B448";
+                }
+            } else if(item == "item2"){
+                document.getElementById('paygo').setAttribute('onclick', "location.href='https://smartstore.naver.com/berkem/products/8788121990'");
+                document.getElementById('our1').innerText = "40kg";
+                document.getElementById('our2').innerText = "-";
+                document.getElementById('our3').innerText = "-";
+                document.getElementById('ifable').innerText = "불가능";
+                document.getElementById('ifable').style.color = "#FF0000";
+                if(item2_data != ""){
+                    document.getElementById('our2').innerText = item_size;
+                    document.getElementById('our3').innerHTML = item2_data;
+                    document.getElementById('ifable').innerText = "가능";
+                    document.getElementById('ifable').style.color = "#36B448";
+                }
+            } else if(item == "item3"){
+                document.getElementById('paygo').setAttribute('onclick', "location.href='https://smartstore.naver.com/berkem/products/9354591254'");
+                document.getElementById('our1').innerText = "15kg";
+                document.getElementById('our2').innerText = "-";
+                document.getElementById('our3').innerText = "-";
+                document.getElementById('ifable').innerText = "불가능";
+                document.getElementById('ifable').style.color = "#FF0000";
+                if(item3_data != ""){
+                    document.getElementById('our2').innerText = item_size;
+                    document.getElementById('our3').innerHTML = item3_data;
+                    document.getElementById('ifable').innerText = "가능";
+                    document.getElementById('ifable').style.color = "#36B448";
+                }
+            } else if(item == "item4"){
+                document.getElementById('paygo').setAttribute('onclick', "location.href='https://naver.com'");
+                document.getElementById('our1').innerText = "50kg";
+                document.getElementById('our2').innerText = "-";
+                document.getElementById('our3').innerText = "-";
+                document.getElementById('ifable').innerText = "불가능";
+                document.getElementById('ifable').style.color = "#FF0000";
+                if(item4_data != ""){
+                    document.getElementById('our2').innerText = item_size;
+                    document.getElementById('our3').innerHTML = item4_data;
+                    document.getElementById('ifable').innerText = "가능";
+                    document.getElementById('ifable').style.color = "#36B448";
+                }
+            }
+        }
+
+        function search_data(){
+            document.getElementById('loading').style.display = 'inline-block';
+            const url = 'https://api.moji.or.kr/greedyfarmers';
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            const requestData = {
+                tvmodel: document.getElementById('tvmodel').value
+            };
+            fetch(url, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(requestData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loading').style.display = 'none';
+                item_click("item1");
+                document.getElementById('you1').innerText = "";
+                document.getElementById('you2').innerText = "";
+                document.getElementById('you3').innerText = "";
+                if(data["code"] == "NotFound"){
+                    alert("검색 결과가 없습니다.");
+                } else if(data["code"] == "novesa"){
+                    alert("베사가 없는 모델입니다.");
+                } else if(data["code"] == "cs"){
+                    alert("모델 정보가 부족합니다. 해당 TV/모니터 제조사 고객센터로 문의해 주세요.");
+                } else{
+                    document.getElementById('you1').innerText = data["weight"];
+                    document.getElementById('you2').innerText = data["vesa_size"];
+                    document.getElementById('you3').innerText = data["screw_size"];
+
+                    document.getElementById('our1').innerText = "10kg";
+                    document.getElementById('our2').innerText = "-";
+                    document.getElementById('our3').innerText = "-";
+                    document.getElementById('ifable').innerText = "불가능";
+                    document.getElementById('ifable').style.color = "#FF0000";
+                    if(data["item1"] != ""){
+                        document.getElementById('our2').innerText = data["vesa_size"];
+                        document.getElementById('our3').innerHTML = data["item1"];
+                        document.getElementById('ifable').innerText = "가능";
+                        document.getElementById('ifable').style.color = "#36B448";
+                    }
+                    item1_data = data["item1"];
+                    item2_data = data["item2"];
+                    item3_data = data["item3"];
+                    item4_data = data["item4"];
+                    item_size = data["vesa_size"];
+                }
+            })
+            .catch(error => {
+                alert("알 수 없는 오류가 발생했습니다.");
+            });
         }
     </script>
 </body>
