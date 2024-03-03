@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200&display=swap');
+        *{
+            font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif !important;
+            /* word-break: keep-all; */
+        }
+        html, body{
+            font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif !important;
+        }
+        input, textarea, button{
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            border-radius: 0;
+            -webkit-border-radius: 0;
+            -moz-border-radius: 0;
+        }
+        input[type=text], input[type=password], textarea{
+            border: 1px #bcbdc1 solid;
+            border-radius: 4px;
+            padding: 7px 16px 7px 16px;
+            width: calc(90vw - 34px);
+            max-width: calc(600px - 34px);
+            font-size: 16px;
+            height: 26px;
+        }
+        input[type=button]{
+            border: none;
+            border-radius: 4px;
+            padding: 7px 16px 7px 16px;
+            width: 90vw;
+            max-width: 600px;
+            font-size: 16px;
+            height: 60px;
+            color: #FFFFFF;
+            background-color: #333333;
+            cursor: pointer;
+        }
+        input[type=checkbox]{
+            border: 1px #bcbdc1 solid;
+            border-radius: 4px;
+            width: 20px;
+            height: 20px;
+            margin-right: 6px;
+            cursor: pointer;
+        }
+        input[type=checkbox]:checked{
+            border: 1px #333333 solid;
+            background-color: #333333;
+        }
+    </style>
+</head>
+<body>
+    <div style="margin: 0; padding: 0; text-align: center; color: #333333;">
+        <div style="width: 90vw; max-width: 600px; display: inline-block; text-align: left;">
+            <br><br>
+            <h1 style="font-weight: 600; margin-bottom: 20px;">TV/모니터 모델 업로드 시스템</h1>
+            <br><hr style="border: 0.6px #dfe0e4 solid; margin-top: 16px;"><br>
+            <form id="forms">
+                <p style="color: #747579; margin-bottom: 10px; line-height: 24px;" id="mailtext">아이디<a style="color: #ff6464;">*</a></p>
+                <input type="text" id="id">
+                <br>
+                <p style="color: #747579; margin-bottom: 10px; line-height: 24px;" id="nametext">비밀번호<a style="color: #ff6464;">*</a></p>
+                <input type="password" id="pw">
+                <br><br>
+                <hr style="border: 0.6px #dfe0e4 solid; margin: 16px 0 14px 0;">
+                <br>
+                <input id="load_be" type="button" value="기존 JSON 내려받기" onclick="down()">
+                <br><br>
+                <textarea id="json_down" style="resize: none; height: 200px;" placeholder="[기존 JSON 내려받기]를 누르면 이 곳에 JSON이 보여집니다." readonly></textarea>
+                <br><br>
+                <hr style="border: 0.6px #dfe0e4 solid; margin: 16px 0 14px 0;">
+                <br>
+                <textarea id="json_up" style="resize: none; height: 200px;" placeholder="이 곳에 새로운 JSON을 붙여넣은 후 [새로 JSON 업로드하기(덮어쓰기)]를 누르면 데이터가 덮어쓰여집니다."></textarea>
+                <br><br>
+                <input id="load_be" type="button" value="새로 JSON 업로드하기(덮어쓰기)" onclick="up()">
+            </form>
+            <br><br>
+        </div>
+    </div>
+    <script>
+        function down(){
+            const url = 'https://api.moji.or.kr/greedyfarmers/admin/down';
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            const requestData = {
+                id: document.getElementById('id').value,
+                pw: document.getElementById('pw').value
+            };
+            fetch(url, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(requestData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data["code"] == "Unauthorized"){
+                    alert("아이디나 비밀번호가 올바르지 않습니다.");
+                } else{
+                    document.getElementById('json_down').value = JSON.stringify(data, null, 4);
+                }
+            })
+            .catch(error => {
+                alert("알 수 없는 오류가 발생했습니다.");
+            });
+        }
+        function up(){
+            const url = 'https://api.moji.or.kr/greedyfarmers/admin/up';
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            const requestData = {
+                id: document.getElementById('id').value,
+                pw: document.getElementById('pw').value,
+                data: document.getElementById('json_up').value
+            };
+            fetch(url, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(requestData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data["code"] == "Unauthorized"){
+                    alert("아이디나 비밀번호가 올바르지 않습니다.");
+                } else{
+                    alert("성공적으로 업로드되었습니다.");
+                }
+            })
+            .catch(error => {
+                alert("알 수 없는 오류가 발생했습니다.");
+            });
+        }
+    </script>
+</body>
+</html>
