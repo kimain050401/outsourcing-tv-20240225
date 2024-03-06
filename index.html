@@ -86,6 +86,22 @@
             align-items: center;
             flex-direction: column;
         }
+        @media screen and (max-width: 420px){
+            h1{
+                font-size: 26px;
+            }
+            input[type=text]{
+                font-size: 16px;
+            }
+        }
+        @media screen and (max-width: 350px){
+            h1{
+                font-size: 20px;
+            }
+            input[type=text]{
+                font-size: 13px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -144,9 +160,9 @@
         <div style="display: inline-block; width: 100vw; max-width: 500px; background-color: #FFFFFF; text-align: left; box-sizing: border-box;">
             <table>
                 <tr>
-                    <th></th>
-                    <td>자사제품 <span style="color: #FF0000;">기준</span></td>
-                    <td style="color: #005EC3;">고객님 모델 스펙</td>
+                    <th style="width: 30%;"></th>
+                    <td style="width: 35%;">자사제품 <span style="color: #FF0000;">기준</span></td>
+                    <td style="width: 35%; color: #005EC3;">고객님 모델 스펙</td>
                 </tr>
                 <tr>
                     <th>모니터 무게</th>
@@ -171,7 +187,9 @@
         item2_data = "";
         item3_data = "";
         item4_data = "";
-        item_size = "";
+        item_weight = "";
+        item_vesa_size = "";
+        item_screw_size = "";
 
         function item_click(item){
             document.getElementById('item1_border').style.borderBottom = '1px solid #B9B9B9';
@@ -200,6 +218,13 @@
                 if(item1_data != ""){
                     document.getElementById('ifable').innerText = "가능";
                     document.getElementById('ifable').style.color = "#36B448";
+                    document.getElementById('paygo').value = "구매하러 가기";
+                    document.getElementById('paygo').style.backgroundColor = "#005EC3";
+                    document.getElementById('paygo').style.fontSize = "16px";
+                    document.getElementById('paygo').style.display = "inline-block";
+                    document.getElementById('paygo').disabled = false;
+                } else{
+                    document.getElementById('paygo').style.display = "none";
                 }
             } else if(item == "item2"){
                 document.getElementById('paygo').setAttribute('onclick', "location.href='https://smartstore.naver.com/berkem/products/8788121990'");
@@ -208,9 +233,23 @@
                 document.getElementById('our3').innerText = "M6x14, M8x16";
                 document.getElementById('ifable').innerText = "불가능";
                 document.getElementById('ifable').style.color = "#FF0000";
+                console.log(Number(item_weight.replace("kg", "")))
                 if(item2_data != ""){
                     document.getElementById('ifable').innerText = "가능";
                     document.getElementById('ifable').style.color = "#36B448";
+                    document.getElementById('paygo').value = "구매하러 가기";
+                    document.getElementById('paygo').style.backgroundColor = "#005EC3";
+                    document.getElementById('paygo').style.fontSize = "16px";
+                    document.getElementById('paygo').style.display = "inline-block";
+                    document.getElementById('paygo').disabled = false;
+                } else if(Number(item_weight.replace("kg", "")) <= 40.0){
+                    document.getElementById('paygo').value = "* 확장배사 추가상품 사용 시 거치가 가능합니다.";
+                    document.getElementById('paygo').style.backgroundColor = "#000000";
+                    document.getElementById('paygo').style.fontSize = "14px";
+                    document.getElementById('paygo').disabled = true;
+                    document.getElementById('paygo').style.display = "inline-block";
+                } else{
+                    document.getElementById('paygo').style.display = "none";
                 }
             } else if(item == "item3"){
                 document.getElementById('paygo').setAttribute('onclick', "location.href='https://smartstore.naver.com/berkem/products/9354591254'");
@@ -222,6 +261,19 @@
                 if(item3_data != ""){
                     document.getElementById('ifable').innerText = "가능";
                     document.getElementById('ifable').style.color = "#36B448";
+                    document.getElementById('paygo').value = "구매하러 가기";
+                    document.getElementById('paygo').style.backgroundColor = "#005EC3";
+                    document.getElementById('paygo').style.fontSize = "16px";
+                    document.getElementById('paygo').style.display = "inline-block";
+                    document.getElementById('paygo').disabled = false;
+                } else if(Number(item_weight.replace("kg", "")) <= 15.0){
+                    document.getElementById('paygo').value = "* 확장배사 추가상품 사용 시 거치가 가능합니다.";
+                    document.getElementById('paygo').style.backgroundColor = "#000000";
+                    document.getElementById('paygo').style.fontSize = "14px";
+                    document.getElementById('paygo').disabled = true;
+                    document.getElementById('paygo').style.display = "inline-block";
+                } else{
+                    document.getElementById('paygo').style.display = "none";
                 }
             } else if(item == "item4"){
                 document.getElementById('paygo').setAttribute('onclick', "location.href='https://naver.com'");
@@ -233,6 +285,19 @@
                 if(item4_data != ""){
                     document.getElementById('ifable').innerText = "가능";
                     document.getElementById('ifable').style.color = "#36B448";
+                    document.getElementById('paygo').value = "구매하러 가기";
+                    document.getElementById('paygo').style.backgroundColor = "#005EC3";
+                    document.getElementById('paygo').style.fontSize = "16px";
+                    document.getElementById('paygo').style.display = "inline-block";
+                    document.getElementById('paygo').disabled = false;
+                } else if(Number(item_weight.replace("kg", "")) <= 50.0){
+                    document.getElementById('paygo').value = "* 확장배사 추가상품 사용 시 거치가 가능합니다.";
+                    document.getElementById('paygo').style.backgroundColor = "#000000";
+                    document.getElementById('paygo').style.fontSize = "14px";
+                    document.getElementById('paygo').disabled = true;
+                    document.getElementById('paygo').style.display = "inline-block";
+                } else{
+                    document.getElementById('paygo').style.display = "none";
                 }
             }
         }
@@ -253,6 +318,7 @@
             })
             .then(response => response.json())
             .then(data => {
+                console.log(data);
                 document.getElementById('loading').style.display = 'none';
                 item_click("item1");
                 document.getElementById('you1').innerText = "";
@@ -264,7 +330,28 @@
                 } else if(data["code"] == "novesa"){
                     alert("베사가 없는 모델입니다.");
                 } else if(data["code"] == "cs"){
-                    alert("모델 정보가 부족합니다. 해당 TV/모니터 제조사 고객센터로 문의해 주세요.");
+                    document.getElementById('ifable_box').style.display = 'inline-block';
+                    document.getElementById('you1').innerText = data["weight"];
+                    document.getElementById('you2').innerText = data["vesa_size"];
+                    document.getElementById('you3').innerText = data["screw_size"];
+                    if(data["weight"] == "cs" || data["weight"] == ""){
+                        document.getElementById('you1').innerHTML = "해당 TV/모니터는<br>고객센터로 문의하세요";
+                        document.getElementById('you1').style.color = "#FF0000";
+                        document.getElementById('you1').style.fontSize = "12px";
+                    }
+                    if(data["vesa_size"] == "cs" || data["vesa_size"] == ""){
+                        document.getElementById('you2').innerHTML = "해당 TV/모니터는<br>고객센터로 문의하세요";
+                        document.getElementById('you2').style.color = "#FF0000";
+                        document.getElementById('you2').style.fontSize = "12px";
+                    }
+                    if(data["screw_size"] == "cs" || data["screw_size"] == ""){
+                        document.getElementById('you3').innerHTML = "해당 TV/모니터는<br>고객센터로 문의하세요";
+                        document.getElementById('you3').style.color = "#FF0000";
+                        document.getElementById('you3').style.fontSize = "12px";
+                    }
+                    item_weight = data["weight"];
+                    item_vesa_size = data["vesa_size"];
+                    item_screw_size = data["screw_size"];
                 } else{
                     document.getElementById('ifable_box').style.display = 'inline-block';
 
@@ -287,7 +374,9 @@
                     item2_data = data["item2"];
                     item3_data = data["item3"];
                     item4_data = data["item4"];
-                    item_size = data["vesa_size"];
+                    item_weight = data["weight"];
+                    item_vesa_size = data["vesa_size"];
+                    item_screw_size = data["screw_size"];
                 }
             })
             .catch(error => {
