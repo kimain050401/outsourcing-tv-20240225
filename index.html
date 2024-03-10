@@ -149,10 +149,13 @@
             </div>
         </div>
         <div style="display: inline-block; width: 100vw; max-width: 500px; background-color: #F3F5FE; text-align: left; padding: 40px; box-sizing: border-box;">
-            <div style="background-color: #FFFFFF; padding: 20px; box-sizing: border-box; border-radius: 10px; text-align: center; box-shadow: 2px 2px 4px #CCD0D9; height: 151px;">
+            <div style="background-color: #FFFFFF; padding: 20px; box-sizing: border-box; border-radius: 10px; text-align: center; box-shadow: 2px 2px 4px #CCD0D9; height: 160px;">
                 <div style="display: none;" id="ifable_box">
                     <h2>고객님의 TV/모니터는</h2>
                     <h2><b style="color: #E6E6E6;">(</b><b style="color: #005EC3;" id="item_text">끌레어</b><b style="color: #E6E6E6;">)</b><b>와 거치가 </b><b style="color: #36B448;" id="ifable">가능</b><b>합니다.</b></h2>
+                    <div id="addtional_pay" style="display: none; text-align: center; margin-bottom: -20px; margin-top: -10px;">
+                        <p style="display: inline-block; font-size: 12px; width: fit-content; padding: 4px 10px 4px 10px; border-radius: 6px; background-color: black; color: white;">확장베사 추가 시 거치 가능</p>
+                    </div>
                     <input type="button" value="구매하러 가기" id="paygo" onclick="location.href='https://smartstore.naver.com/berkem/products/8788156517'">
                 </div>
             </div>
@@ -215,22 +218,12 @@
                 document.getElementById('our3').innerText = "M4x12, M5x12";
                 document.getElementById('ifable').innerText = "불가능";
                 document.getElementById('ifable').style.color = "#FF0000";
+                document.getElementById("addtional_pay").style.display = "none";
                 if(item1_data != ""){
                     document.getElementById('ifable').innerText = "가능";
                     document.getElementById('ifable').style.color = "#36B448";
-                    document.getElementById('paygo').value = "구매하러 가기";
-                    document.getElementById('paygo').style.backgroundColor = "#005EC3";
-                    document.getElementById('paygo').style.fontSize = "16px";
-                    document.getElementById('paygo').style.display = "inline-block";
-                    document.getElementById('paygo').disabled = false;
                 } else if(Number(item_weight.replace("kg", "")) <= 10.0 && item_vesa_size == "200*200"){
-                    document.getElementById('paygo').value = "확장베사 추가 시 거치 가능";
-                    document.getElementById('paygo').style.backgroundColor = "#000000";
-                    document.getElementById('paygo').style.fontSize = "14px";
-                    document.getElementById('paygo').disabled = true;
-                    document.getElementById('paygo').style.display = "inline-block";
-                } else{
-                    document.getElementById('paygo').style.display = "none";
+                    document.getElementById("addtional_pay").style.display = "block";
                 }
             } else if(item == "item2"){
                 document.getElementById('paygo').setAttribute('onclick', "location.href='https://smartstore.naver.com/berkem/products/8788121990'");
@@ -239,17 +232,10 @@
                 document.getElementById('our3').innerText = "M6x14, M8x16";
                 document.getElementById('ifable').innerText = "불가능";
                 document.getElementById('ifable').style.color = "#FF0000";
-                console.log(Number(item_weight.replace("kg", "")))
+                document.getElementById("addtional_pay").style.display = "none";
                 if(item2_data != ""){
                     document.getElementById('ifable').innerText = "가능";
                     document.getElementById('ifable').style.color = "#36B448";
-                    document.getElementById('paygo').value = "구매하러 가기";
-                    document.getElementById('paygo').style.backgroundColor = "#005EC3";
-                    document.getElementById('paygo').style.fontSize = "16px";
-                    document.getElementById('paygo').style.display = "inline-block";
-                    document.getElementById('paygo').disabled = false;
-                } else{
-                    document.getElementById('paygo').style.display = "none";
                 }
             } else if(item == "item3"){
                 document.getElementById('paygo').setAttribute('onclick', "location.href='https://smartstore.naver.com/berkem/products/9354591254'");
@@ -258,16 +244,10 @@
                 document.getElementById('our3').innerHTML = "M4x12, M5x12,<br>M6x14, M8x20";
                 document.getElementById('ifable').innerText = "불가능";
                 document.getElementById('ifable').style.color = "#FF0000";
+                document.getElementById("addtional_pay").style.display = "none";
                 if(item3_data != ""){
                     document.getElementById('ifable').innerText = "가능";
                     document.getElementById('ifable').style.color = "#36B448";
-                    document.getElementById('paygo').value = "구매하러 가기";
-                    document.getElementById('paygo').style.backgroundColor = "#005EC3";
-                    document.getElementById('paygo').style.fontSize = "16px";
-                    document.getElementById('paygo').style.display = "inline-block";
-                    document.getElementById('paygo').disabled = false;
-                } else{
-                    document.getElementById('paygo').style.display = "none";
                 }
             } else if(item == "item4"){
                 document.getElementById('paygo').setAttribute('onclick', "location.href='https://naver.com'");
@@ -276,16 +256,10 @@
                 document.getElementById('our3').innerHTML = "M6x14, M8x16,<br>M6x30, M8x35";
                 document.getElementById('ifable').innerText = "불가능";
                 document.getElementById('ifable').style.color = "#FF0000";
+                document.getElementById("addtional_pay").style.display = "none";
                 if(item4_data != ""){
                     document.getElementById('ifable').innerText = "가능";
                     document.getElementById('ifable').style.color = "#36B448";
-                    document.getElementById('paygo').value = "구매하러 가기";
-                    document.getElementById('paygo').style.backgroundColor = "#005EC3";
-                    document.getElementById('paygo').style.fontSize = "16px";
-                    document.getElementById('paygo').style.display = "inline-block";
-                    document.getElementById('paygo').disabled = false;
-                } else{
-                    document.getElementById('paygo').style.display = "none";
                 }
             }
         }
@@ -306,7 +280,12 @@
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                document.getElementById('you1').style.color = "#000000";
+                document.getElementById('you1').style.fontSize = "18px";
+                document.getElementById('you2').style.color = "#000000";
+                document.getElementById('you2').style.fontSize = "18px";
+                document.getElementById('you3').style.color = "#000000";
+                document.getElementById('you3').style.fontSize = "18px";
                 document.getElementById('loading').style.display = 'none';
                 item_click("item1");
                 document.getElementById('you1').innerText = "";
@@ -352,17 +331,14 @@
                     document.getElementById('our3').innerText = "-";
                     document.getElementById('ifable').innerText = "불가능";
                     document.getElementById('ifable').style.color = "#FF0000";
+                    document.getElementById("addtional_pay").style.display = "none";
                     if(data["item1"] != ""){
                         document.getElementById('our2').innerText = data["vesa_size"];
                         document.getElementById('our3').innerHTML = data["item1"];
                         document.getElementById('ifable').innerText = "가능";
                         document.getElementById('ifable').style.color = "#36B448";
                     } else if(Number(item_weight.replace("kg", "")) <= 10.0 && data["vesa_size"] == "200*200"){
-                        document.getElementById('paygo').value = "확장베사 추가 시 거치 가능";
-                        document.getElementById('paygo').style.backgroundColor = "#000000";
-                        document.getElementById('paygo').style.fontSize = "14px";
-                        document.getElementById('paygo').disabled = true;
-                        document.getElementById('paygo').style.display = "inline-block";
+                        document.getElementById("addtional_pay").style.display = "block";
                     }
                     item1_data = data["item1"];
                     item2_data = data["item2"];
