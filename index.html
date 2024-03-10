@@ -223,6 +223,12 @@
                     document.getElementById('paygo').style.fontSize = "16px";
                     document.getElementById('paygo').style.display = "inline-block";
                     document.getElementById('paygo').disabled = false;
+                } else if(Number(item_weight.replace("kg", "")) <= 10.0 && item_vesa_size == "200*200"){
+                    document.getElementById('paygo').value = "확장베사 추가 시 거치 가능";
+                    document.getElementById('paygo').style.backgroundColor = "#000000";
+                    document.getElementById('paygo').style.fontSize = "14px";
+                    document.getElementById('paygo').disabled = true;
+                    document.getElementById('paygo').style.display = "inline-block";
                 } else{
                     document.getElementById('paygo').style.display = "none";
                 }
@@ -242,12 +248,6 @@
                     document.getElementById('paygo').style.fontSize = "16px";
                     document.getElementById('paygo').style.display = "inline-block";
                     document.getElementById('paygo').disabled = false;
-                } else if(Number(item_weight.replace("kg", "")) <= 40.0){
-                    document.getElementById('paygo').value = "* 확장배사 추가상품 사용 시 거치가 가능합니다.";
-                    document.getElementById('paygo').style.backgroundColor = "#000000";
-                    document.getElementById('paygo').style.fontSize = "14px";
-                    document.getElementById('paygo').disabled = true;
-                    document.getElementById('paygo').style.display = "inline-block";
                 } else{
                     document.getElementById('paygo').style.display = "none";
                 }
@@ -266,12 +266,6 @@
                     document.getElementById('paygo').style.fontSize = "16px";
                     document.getElementById('paygo').style.display = "inline-block";
                     document.getElementById('paygo').disabled = false;
-                } else if(Number(item_weight.replace("kg", "")) <= 15.0){
-                    document.getElementById('paygo').value = "* 확장배사 추가상품 사용 시 거치가 가능합니다.";
-                    document.getElementById('paygo').style.backgroundColor = "#000000";
-                    document.getElementById('paygo').style.fontSize = "14px";
-                    document.getElementById('paygo').disabled = true;
-                    document.getElementById('paygo').style.display = "inline-block";
                 } else{
                     document.getElementById('paygo').style.display = "none";
                 }
@@ -290,12 +284,6 @@
                     document.getElementById('paygo').style.fontSize = "16px";
                     document.getElementById('paygo').style.display = "inline-block";
                     document.getElementById('paygo').disabled = false;
-                } else if(Number(item_weight.replace("kg", "")) <= 50.0){
-                    document.getElementById('paygo').value = "* 확장배사 추가상품 사용 시 거치가 가능합니다.";
-                    document.getElementById('paygo').style.backgroundColor = "#000000";
-                    document.getElementById('paygo').style.fontSize = "14px";
-                    document.getElementById('paygo').disabled = true;
-                    document.getElementById('paygo').style.display = "inline-block";
                 } else{
                     document.getElementById('paygo').style.display = "none";
                 }
@@ -369,6 +357,12 @@
                         document.getElementById('our3').innerHTML = data["item1"];
                         document.getElementById('ifable').innerText = "가능";
                         document.getElementById('ifable').style.color = "#36B448";
+                    } else if(Number(item_weight.replace("kg", "")) <= 10.0 && data["vesa_size"] == "200*200"){
+                        document.getElementById('paygo').value = "확장베사 추가 시 거치 가능";
+                        document.getElementById('paygo').style.backgroundColor = "#000000";
+                        document.getElementById('paygo').style.fontSize = "14px";
+                        document.getElementById('paygo').disabled = true;
+                        document.getElementById('paygo').style.display = "inline-block";
                     }
                     item1_data = data["item1"];
                     item2_data = data["item2"];
