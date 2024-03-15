@@ -126,22 +126,22 @@
                 <img src="img/search.png" style="width: 30px; margin-bottom: -6px; cursor: pointer;" onclick="search_data()">
             </div>
             <div style="text-align: left; margin-top: 40px; height: 150px; overflow-x: auto; white-space: nowrap; margin-bottom: -30px;">
-                <div id="item1_border" style="display: inline-block; text-align: center; padding: 0 12px 10px 12px; border-bottom: 3px solid #005EC3;" onclick="item_click('item1')">
+                <div id="item1_border" style="display: inline-block; cursor: pointer; text-align: center; padding: 0 12px 10px 12px; border-bottom: 3px solid #005EC3;" onclick="item_click('item1')">
                     <img style="width: 80px; border-radius: 80px;" src="img/item1.png">
                     <br>
                     <h3 id="item1_text" style="color: #005EC3;">끌레어</h3>
                 </div>
-                <div id="item2_border" style="display: inline-block; text-align: center; padding: 0 12px 11px 12px; border-bottom: 1px solid #B9B9B9; margin-left: -4px;" onclick="item_click('item2')">
+                <div id="item2_border" style="display: inline-block; cursor: pointer; text-align: center; padding: 0 12px 11px 12px; border-bottom: 1px solid #B9B9B9; margin-left: -4px;" onclick="item_click('item2')">
                     <img style="width: 80px; border-radius: 80px;" src="img/item2.png">
                     <br>
                     <h3 id="item2_text" style="color: #B9B9B9;">비토</h3>
                 </div>
-                <div id="item3_border" style="display: inline-block; text-align: center; padding: 0 12px 11px 12px; border-bottom: 1px solid #B9B9B9; margin-left: -4px;" onclick="item_click('item3')">
+                <div id="item3_border" style="display: inline-block; cursor: pointer; text-align: center; padding: 0 12px 11px 12px; border-bottom: 1px solid #B9B9B9; margin-left: -4px;" onclick="item_click('item3')">
                     <img style="width: 80px; border-radius: 80px;" src="img/item3.png">
                     <br>
                     <h3 id="item3_text" style="color: #B9B9B9;">윌러</h3>
                 </div>
-                <div id="item4_border" style="display: inline-block; text-align: center; padding: 0 12px 11px 12px; border-bottom: 1px solid #B9B9B9; margin-left: -4px;" onclick="item_click('item4')">
+                <div id="item4_border" style="display: inline-block; cursor: pointer; text-align: center; padding: 0 12px 11px 12px; border-bottom: 1px solid #B9B9B9; margin-left: -4px;" onclick="item_click('item4')">
                     <img style="width: 80px; border-radius: 80px;" src="img/item4.png">
                     <br>
                     <h3 id="item4_text" style="color: #B9B9B9;">로버</h3>
@@ -150,13 +150,16 @@
         </div>
         <div style="display: inline-block; width: 100vw; max-width: 500px; background-color: #F3F5FE; text-align: left; padding: 40px; box-sizing: border-box;">
             <div style="background-color: #FFFFFF; padding: 20px; box-sizing: border-box; border-radius: 10px; text-align: center; box-shadow: 2px 2px 4px #CCD0D9; height: 160px;">
+                <div style="display: none;" id="ifable_none">
+                    <h2 style="margin-top: 46px;">검색 결과가 없습니다.</h2>
+                </div>
                 <div style="display: none;" id="ifable_box">
                     <h2>고객님의 TV/모니터는</h2>
                     <h2><b style="color: #E6E6E6;">(</b><b style="color: #005EC3;" id="item_text">끌레어</b><b style="color: #E6E6E6;">)</b><b>와 거치가 </b><b style="color: #36B448;" id="ifable">가능</b><b>합니다.</b></h2>
                     <div id="addtional_pay" style="display: none; text-align: center; margin-bottom: -20px; margin-top: -10px;">
                         <p style="display: inline-block; font-size: 12px; width: fit-content; padding: 4px 10px 4px 10px; border-radius: 6px; background-color: black; color: white;">확장베사 추가 시 거치 가능</p>
                     </div>
-                    <input type="button" value="구매하러 가기" id="paygo" onclick="location.href='https://smartstore.naver.com/berkem/products/8788156517'">
+                    <input style="cursor: pointer;" type="button" value="구매하러 가기" id="paygo" onclick="location.href='https://smartstore.naver.com/berkem/products/8788156517'">
                 </div>
             </div>
         </div>
@@ -292,27 +295,49 @@
                 document.getElementById('you2').innerText = "";
                 document.getElementById('you3').innerText = "";
                 document.getElementById('ifable_box').style.display = 'none';
+                document.getElementById('ifable_none').style.display = 'none';
                 if(data["code"] == "NotFound"){
-                    alert("검색 결과가 없습니다.");
+                    document.getElementById('ifable_none').style.display = 'inline-block';
                 } else if(data["code"] == "novesa"){
-                    alert("베사가 없는 모델입니다.");
+                    document.getElementById('ifable_box').style.display = 'inline-block';
+                    document.getElementById('you1').innerHTML = data["weight"];
+                    document.getElementById('you2').innerHTML = data["vesa_size"];
+                    document.getElementById('you3').innerHTML = data["screw_size"];
+                    if(data["weight"] == "cs" || data["weight"] == ""){
+                        document.getElementById('you1').innerHTML = "고객센터로 문의하세요";
+                        document.getElementById('you1').style.color = "#FF0000";
+                        document.getElementById('you1').style.fontSize = "12px";
+                    }
+                    if(data["vesa_size"] == "cs" || data["vesa_size"] == "" || data["vesa_size"] == "novesa"){
+                        document.getElementById('you2').innerHTML = "고객센터로 문의하세요";
+                        document.getElementById('you2').style.color = "#FF0000";
+                        document.getElementById('you2').style.fontSize = "12px";
+                    }
+                    if(data["screw_size"] == "cs" || data["screw_size"] == "" || data["screw_size"] == "novesa"){
+                        document.getElementById('you3').innerHTML = "고객센터로 문의하세요";
+                        document.getElementById('you3').style.color = "#FF0000";
+                        document.getElementById('you3').style.fontSize = "12px";
+                    }
+                    item_weight = data["weight"];
+                    item_vesa_size = data["vesa_size"];
+                    item_screw_size = data["screw_size"];
                 } else if(data["code"] == "cs"){
                     document.getElementById('ifable_box').style.display = 'inline-block';
-                    document.getElementById('you1').innerText = data["weight"];
-                    document.getElementById('you2').innerText = data["vesa_size"];
-                    document.getElementById('you3').innerText = data["screw_size"];
+                    document.getElementById('you1').innerHTML = data["weight"];
+                    document.getElementById('you2').innerHTML = data["vesa_size"];
+                    document.getElementById('you3').innerHTML = data["screw_size"];
                     if(data["weight"] == "cs" || data["weight"] == ""){
-                        document.getElementById('you1').innerHTML = "해당 TV/모니터는<br>고객센터로 문의하세요";
+                        document.getElementById('you1').innerHTML = "고객센터로 문의하세요";
                         document.getElementById('you1').style.color = "#FF0000";
                         document.getElementById('you1').style.fontSize = "12px";
                     }
                     if(data["vesa_size"] == "cs" || data["vesa_size"] == ""){
-                        document.getElementById('you2').innerHTML = "해당 TV/모니터는<br>고객센터로 문의하세요";
+                        document.getElementById('you2').innerHTML = "고객센터로 문의하세요";
                         document.getElementById('you2').style.color = "#FF0000";
                         document.getElementById('you2').style.fontSize = "12px";
                     }
                     if(data["screw_size"] == "cs" || data["screw_size"] == ""){
-                        document.getElementById('you3').innerHTML = "해당 TV/모니터는<br>고객센터로 문의하세요";
+                        document.getElementById('you3').innerHTML = "고객센터로 문의하세요";
                         document.getElementById('you3').style.color = "#FF0000";
                         document.getElementById('you3').style.fontSize = "12px";
                     }
@@ -322,13 +347,13 @@
                 } else{
                     document.getElementById('ifable_box').style.display = 'inline-block';
 
-                    document.getElementById('you1').innerText = data["weight"];
-                    document.getElementById('you2').innerText = data["vesa_size"];
-                    document.getElementById('you3').innerText = data["screw_size"];
+                    document.getElementById('you1').innerHTML = data["weight"];
+                    document.getElementById('you2').innerHTML = data["vesa_size"];
+                    document.getElementById('you3').innerHTML = data["screw_size"];
 
                     document.getElementById('our1').innerText = "10kg";
-                    document.getElementById('our2').innerText = "-";
-                    document.getElementById('our3').innerText = "-";
+                    // document.getElementById('our2').innerText = "-";
+                    // document.getElementById('our3').innerText = "-";
                     document.getElementById('ifable').innerText = "불가능";
                     document.getElementById('ifable').style.color = "#FF0000";
                     document.getElementById("addtional_pay").style.display = "none";

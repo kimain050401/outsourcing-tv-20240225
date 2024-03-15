@@ -72,55 +72,50 @@
                 <br><br>
                 <hr style="border: 0.6px #dfe0e4 solid; margin: 16px 0 14px 0;">
                 <br>
-                <input id="load_be" type="button" value="기존 JSON 내려받기" onclick="down()">
-                <br><br>
-                <textarea id="json_down" style="resize: none; height: 200px;" placeholder="[기존 JSON 내려받기]를 누르면 이 곳에 JSON이 보여집니다." readonly></textarea>
+                <p style="color: #747579; margin-bottom: 10px; line-height: 24px;" id="mailtext">모델명<a style="color: #ff6464;">*</a></p>
+                <input type="text" id="model">
+                <br>
+                <p style="color: #747579; margin-bottom: 10px; line-height: 24px;" id="nametext">무게<a style="color: #ff6464;">*</a></p>
+                <input type="text" id="weight">
+                <br>
+                <p style="color: #747579; margin-bottom: 10px; line-height: 24px;" id="nametext">베사 사이즈<a style="color: #ff6464;">*</a></p>
+                <input type="text" id="vesa_size">
+                <br>
+                <p style="color: #747579; margin-bottom: 10px; line-height: 24px;" id="nametext">베사 나사 사이즈<a style="color: #ff6464;">*</a></p>
+                <input type="text" id="screw_size">
+                <br><br><br>
+                <input id="load_be" type="button" value="추가하기 / 덮어쓰기" onclick="up()">
                 <br><br>
                 <hr style="border: 0.6px #dfe0e4 solid; margin: 16px 0 14px 0;">
                 <br>
-                <textarea id="json_up" style="resize: none; height: 200px;" placeholder="이 곳에 새로운 JSON을 붙여넣은 후 [새로 JSON 업로드하기(덮어쓰기)]를 누르면 데이터가 덮어쓰여집니다."></textarea>
+                <p style="color: #747579; margin-bottom: 10px; line-height: 24px;" id="mailtext">모델명<a style="color: #ff6464;">*</a></p>
+                <input type="text" id="ddd">
+                <br><br><br>
+                <input id="load_be" type="button" value="삭제하기" onclick="del()">
                 <br><br>
-                <input id="load_be" type="button" value="새로 JSON 업로드하기(덮어쓰기)" onclick="up()">
+                <!-- <hr style="border: 0.6px #dfe0e4 solid; margin: 16px 0 14px 0;">
+                <br>
+                <p style="color: #747579; margin-bottom: 10px; line-height: 24px;" id="mailtext">조회할 기간<a style="color: #ff6464;">*</a></p>
+                <input type="text" id="ddd">
+                <br><br><br>
+                <input id="load_be" type="button" value="조회하기" onclick="up()"> -->
             </form>
             <br><br>
         </div>
     </div>
     <script>
-        function down(){
-            const url = 'https://api.moji.or.kr/greedyfarmers/admin/down';
-            const headers = {
-                'Content-Type': 'application/json'
-            };
-            const requestData = {
-                id: document.getElementById('id').value,
-                pw: document.getElementById('pw').value
-            };
-            fetch(url, {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify(requestData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if(data["code"] == "Unauthorized"){
-                    alert("아이디나 비밀번호가 올바르지 않습니다.");
-                } else{
-                    document.getElementById('json_down').value = JSON.stringify(data, null, 4);
-                }
-            })
-            .catch(error => {
-                alert("알 수 없는 오류가 발생했습니다.");
-            });
-        }
         function up(){
-            const url = 'https://api.moji.or.kr/greedyfarmers/admin/up';
+            const url = 'https://api.moji.or.kr/greedyfarmers/admin/edit';
             const headers = {
                 'Content-Type': 'application/json'
             };
             const requestData = {
                 id: document.getElementById('id').value,
                 pw: document.getElementById('pw').value,
-                data: document.getElementById('json_up').value
+                model: document.getElementById('model').value,
+                weight: document.getElementById('weight').value,
+                vesa_size: document.getElementById('vesa_size').value,
+                screw_size: document.getElementById('screw_size').value
             };
             fetch(url, {
                 method: 'POST',
@@ -132,7 +127,34 @@
                 if(data["code"] == "Unauthorized"){
                     alert("아이디나 비밀번호가 올바르지 않습니다.");
                 } else{
-                    alert("성공적으로 업로드되었습니다.");
+                    alert("성공적으로 추가/수정되었습니다.");
+                }
+            })
+            .catch(error => {
+                alert("알 수 없는 오류가 발생했습니다.");
+            });
+        }
+        function del(){
+            const url = 'https://api.moji.or.kr/greedyfarmers/admin/del';
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            const requestData = {
+                id: document.getElementById('id').value,
+                pw: document.getElementById('pw').value,
+                model: document.getElementById('model').value
+            };
+            fetch(url, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(requestData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data["code"] == "Unauthorized"){
+                    alert("아이디나 비밀번호가 올바르지 않습니다.");
+                } else{
+                    alert("성공적으로 삭제되었습니다.");
                 }
             })
             .catch(error => {
