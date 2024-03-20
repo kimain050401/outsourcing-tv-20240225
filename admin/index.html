@@ -14,6 +14,12 @@
         html, body{
             font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif !important;
         }
+        .box{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
         input, textarea, button{
             appearance: none;
             -moz-appearance: none;
@@ -58,6 +64,13 @@
     </style>
 </head>
 <body>
+    <div id="loadings" class="box" style="display: none; width: 100vw; height: 100vh; position: fixed; top: 0; left: 0; background-color: white; text-align: center;">
+        <div style="width: 90vh; display: inline-block;">
+            <p style="font-size: 20px; font-weight: bold;">요청하신 작업을 처리 중입니다.</p>
+            <p>처리가 완료될 때까지<br>화면을 벗어나지 말아주세요.</p>
+            <p>1분 이상 응답이 없을 경우,<br>개발자에게 문의해 주시기 바랍니다.</p>
+        </div>
+    </div>
     <div style="margin: 0; padding: 0; text-align: center; color: #333333;">
         <div style="width: 90vw; max-width: 600px; display: inline-block; text-align: left;">
             <br><br>
@@ -70,6 +83,12 @@
                 <p style="color: #747579; margin-bottom: 10px; line-height: 24px;" id="nametext">비밀번호<a style="color: #ff6464;">*</a></p>
                 <input type="password" id="pw">
                 <br><br>
+                <hr style="border: 0.6px #dfe0e4 solid; margin: 16px 0 14px 0;">
+                <br><br>
+                <textarea id="returndata" style="height: 100px; resize: none;" placeholder="[JSON 전체 내려받기]를 누르면 이 곳에 출력됩니다." readonly></textarea>
+                <br><br>
+                <input id="load_be" type="button" value="JSON 전체 내려받기" onclick="down()">
+                <br><br><br>
                 <hr style="border: 0.6px #dfe0e4 solid; margin: 16px 0 14px 0;">
                 <br>
                 <p style="color: #747579; margin-bottom: 10px; line-height: 24px;" id="mailtext">모델명<a style="color: #ff6464;">*</a></p>
@@ -105,6 +124,7 @@
     </div>
     <script>
         function up(){
+            document.getElementById('loadings').style.display = 'block';
             const url = 'https://api.moji.or.kr/greedyfarmers/admin/edit';
             const headers = {
                 'Content-Type': 'application/json'
@@ -124,6 +144,7 @@
             })
             .then(response => response.json())
             .then(data => {
+                document.getElementById('loadings').style.display = 'none';
                 if(data["code"] == "Unauthorized"){
                     alert("아이디나 비밀번호가 올바르지 않습니다.");
                 } else{
@@ -131,10 +152,12 @@
                 }
             })
             .catch(error => {
+                document.getElementById('loadings').style.display = 'none';
                 alert("알 수 없는 오류가 발생했습니다.");
             });
         }
         function del(){
+            document.getElementById('loadings').style.display = 'block';
             const url = 'https://api.moji.or.kr/greedyfarmers/admin/del';
             const headers = {
                 'Content-Type': 'application/json'
@@ -151,6 +174,7 @@
             })
             .then(response => response.json())
             .then(data => {
+                document.getElementById('loadings').style.display = 'none';
                 if(data["code"] == "Unauthorized"){
                     alert("아이디나 비밀번호가 올바르지 않습니다.");
                 } else{
@@ -158,6 +182,36 @@
                 }
             })
             .catch(error => {
+                document.getElementById('loadings').style.display = 'none';
+                alert("알 수 없는 오류가 발생했습니다.");
+            });
+        }
+        function down(){
+            document.getElementById('loadings').style.display = 'block';
+            const url = 'https://api.moji.or.kr/greedyfarmers/admin/down';
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            const requestData = {
+                id: document.getElementById('id').value,
+                pw: document.getElementById('pw').value
+            };
+            fetch(url, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(requestData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loadings').style.display = 'none';
+                if(data["code"] == "Unauthorized"){
+                    alert("아이디나 비밀번호가 올바르지 않습니다.");
+                } else{
+                    document.getElementById("returndata").value = JSON.stringify(data, null, 4);
+                }
+            })
+            .catch(error => {
+                document.getElementById('loadings').style.display = 'none';
                 alert("알 수 없는 오류가 발생했습니다.");
             });
         }
