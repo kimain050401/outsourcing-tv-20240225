@@ -142,7 +142,7 @@
                     <h3 id="item3_text" style="color: #B9B9B9;">윌러</h3>
                 </div>
                 <div id="item4_border" style="display: inline-block; cursor: pointer; text-align: center; padding: 0 12px 11px 12px; border-bottom: 1px solid #B9B9B9; margin-left: -4px;" onclick="item_click('item4')">
-                    <img style="width: 80px; border-radius: 80px;" src="img/item4.png">
+                    <img style="width: 80px; border-radius: 80px;" src="img/item5.png">
                     <br>
                     <h3 id="item4_text" style="color: #B9B9B9;">로버</h3>
                 </div>
@@ -159,7 +159,7 @@
                     <div id="addtional_pay" style="display: none; text-align: center; margin-bottom: -16px; margin-top: -6px;">
                         <p style="display: inline-block; font-weight: bold; width: fit-content; padding: 4px 10px 4px 10px; border-radius: 6px; border: #000000 solid 1px; background-color: #FF6701; color: #000000;">* 베사확장판 추가구매 시 <span style="color: #FFFFFF;">거치 가능</span></p>
                     </div>
-                    <input style="cursor: pointer;" type="button" value="구매하러 가기" id="paygo" onclick="location.href='https://smartstore.naver.com/berkem/products/8788156517?nt_source=naver&nt_medium=모델조회&nt_detail=VESA&nt_keyword=끌레어'">
+                    <input style="cursor: pointer;" type="button" value="구매하러 가기" id="paygo" onclick="window.open('https://smartstore.naver.com/berkem/products/8788156517?nt_source=naver&nt_medium=모델조회&nt_detail=VESA&nt_keyword=끌레어')">
                 </div>
             </div>
         </div>
@@ -215,7 +215,7 @@
             document.getElementById(item+'_text').style.color = '#005EC3';
             document.getElementById('item_text').innerText = document.getElementById(item+'_text').innerText;
             if(item == "item1"){
-                document.getElementById('paygo').setAttribute('onclick', "location.href='https://smartstore.naver.com/berkem/products/8788156517?nt_source=naver&nt_medium=모델조회&nt_detail=VESA&nt_keyword=끌레어'");
+                document.getElementById('paygo').setAttribute('onclick', "window.open('https://smartstore.naver.com/berkem/products/8788156517?nt_source=naver&nt_medium=모델조회&nt_detail=VESA&nt_keyword=끌레어')");
                 document.getElementById('our1').innerText = "10kg";
                 document.getElementById('our2').innerText = "75*75, 100*100";
                 document.getElementById('our3').innerText = "M4x12, M5x12";
@@ -229,7 +229,7 @@
                     document.getElementById("addtional_pay").style.display = "block";
                 }
             } else if(item == "item2"){
-                document.getElementById('paygo').setAttribute('onclick', "location.href='https://smartstore.naver.com/berkem/products/8788121990?nt_source=naver&nt_medium=모델조회&nt_detail=VESA&nt_keyword=비토'");
+                document.getElementById('paygo').setAttribute('onclick', "window.open('https://smartstore.naver.com/berkem/products/8788121990?nt_source=naver&nt_medium=모델조회&nt_detail=VESA&nt_keyword=비토')");
                 document.getElementById('our1').innerText = "40kg";
                 document.getElementById('our2').innerHTML = "200*200, 300*200,<br>300*300, 400*200,<br> 400*300, 400*400,<br> 600*400";
                 document.getElementById('our3').innerText = "M6x14, M8x16";
@@ -241,7 +241,7 @@
                     document.getElementById('ifable').style.color = "#36B448";
                 }
             } else if(item == "item3"){
-                document.getElementById('paygo').setAttribute('onclick', "location.href='https://smartstore.naver.com/berkem/products/9354591254?nt_source=naver&nt_medium=모델조회&nt_detail=VESA&nt_keyword=윌러'");
+                document.getElementById('paygo').setAttribute('onclick', "window.open('https://smartstore.naver.com/berkem/products/9354591254?nt_source=naver&nt_medium=모델조회&nt_detail=VESA&nt_keyword=윌러')");
                 document.getElementById('our1').innerText = "15kg";
                 document.getElementById('our2').innerHTML = "75*75, 100*100,<br>200*100, 200*200";
                 document.getElementById('our3').innerHTML = "M4x12, M5x12,<br>M6x14, M8x20";
@@ -253,7 +253,7 @@
                     document.getElementById('ifable').style.color = "#36B448";
                 }
             } else if(item == "item4"){
-                document.getElementById('paygo').setAttribute('onclick', "location.href='https://smartstore.naver.com/berkem/products/10078987227?nt_source=naver&nt_medium=모델조회&nt_detail=VESA&nt_keyword=로버'");
+                document.getElementById('paygo').setAttribute('onclick', "window.open('https://smartstore.naver.com/berkem/products/10078987227?nt_source=naver&nt_medium=모델조회&nt_detail=VESA&nt_keyword=로버')");
                 document.getElementById('our1').innerText = "50kg";
                 document.getElementById('our2').innerHTML = "200*200, 300*200,<br>300*300, 400*200,<br>400*300, 400*400,<br>600*400";
                 document.getElementById('our3').innerHTML = "M6x14, M8x16,<br>M6x30, M8x35";
