@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>모델 결합 여부 조회</title>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200&display=swap');
+        *{
+            font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif !important;
+            /* word-break: keep-all; */
+        }
+        html, body{
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif !important;
+        }
+        input, textarea, button{
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            border-radius: 0;
+            -webkit-border-radius: 0;
+            -moz-border-radius: 0;
+            border: none;
+        }
+        input[type="text"]{
+            width: calc(100vw - 170px);
+            max-width: 330px;
+            color: #005EC3;
+            background: none;
+            font-weight: 500;
+            font-size: 20px;
+            margin: 20px 10px 20px 20px;
+        }
+        input::placeholder{
+            color: #BBC2D8;
+        }
+        input[type="button"]{
+            border-radius: 6px;
+            background-color: #005EC3;
+            color: #FFFFFF;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 8px 26px 8px 26px;
+            margin-top: 10px;
+        }
+        h1{
+            padding: 0;
+            margin: 10px 0 0 0;
+            font-weight: 500;
+        }
+        h2{
+            padding: 0;
+            margin: 4px 0 0 0;
+            font-weight: 500;
+        }
+        h3{
+            padding: 0;
+            margin: 10px 0 0 0;
+            font-weight: 500;
+            font-size: 22px;
+            display: inline-block;
+        }
+        table{
+            width: 100%;
+            margin: 40px 0 40px 0;
+        }
+        table, th, td {
+            border: 1px solid #BEC9FF;
+            border-collapse: collapse;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 500;
+            padding: 10px 0 10px 0;
+        }
+        th{
+            background-color: #005EC3;
+            color: #FFFFFF;;
+        }
+        .box{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        @media screen and (max-width: 420px){
+            h1{
+                font-size: 26px;
+            }
+            input[type=text]{
+                font-size: 16px;
+            }
+        }
+        @media screen and (max-width: 350px){
+            h1{
+                font-size: 20px;
+            }
+            input[type=text]{
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="loading" style="position: fixed; display: none; width: 100vw; max-width: 500px;">
+        <div style="width: 100vw; height: 100vh; max-width: 500px; background-color: #999999aa; text-align: center; padding: 40px; box-sizing: border-box;" class="box">
+            <div style="width: 100vw; max-width: 500px; background-color: white; padding: 30px 0 30px 0;">
+                <img style="width: 100px;" src="img/logo.png">
+                <p style="color: black; font-size: 20px; font-weight: 500; margin: 10px 0 8px 0; padding: 0;">모델을 찾고 있어요!</p>
+                <p style="color: black; font-size: 16px; font-weight: 500; margin: 0; padding: 0;">잠시만 기다려 주세요.</p>
+            </div>
+        </div>
+    </div>
+    <div style="display: inline-block; width: 100vw; max-width: 500px;">
+        <div style="display: inline-block; width: 100vw; max-width: 500px; background-color: white; text-align: left; padding: 40px; box-sizing: border-box;">
+            <img style="width: 90px;" src="img/logo.png">
+            <br><br><br>
+            <h1 style="box-sizing: border-box;"><b>모델명</b>을 검색하시고</h1>
+            <h1>베르켐 상품과</h1>
+            <h1><b style="color: #005EC3;">결합여부</b>를 확인해 보세요!</h1>
+            <div style="width: calc(100vw - 80px); max-width: 420px; color: #005EC3; font-weight: 500; background-color: #F3F5FE; font-size: 20px; border-bottom: 2px solid #005EC3; box-sizing: border-box; margin-top: 40px;">
+                <input type="text" id="tvmodel" placeholder="정확한 TV 모델명을 입력해 주세요" onkeyup="document.getElementById('tvmodel').value = document.getElementById('tvmodel').value.toUpperCase()">
+                <img src="img/search.png" style="width: 30px; margin-bottom: -6px; cursor: pointer;" onclick="search_data()">
+            </div>
+            <div style="text-align: left; margin-top: 40px; height: 150px; overflow-x: auto; white-space: nowrap; margin-bottom: -30px;">
+                <div id="item1_border" style="display: inline-block; cursor: pointer; text-align: center; padding: 0 12px 10px 12px; border-bottom: 3px solid #005EC3;" onclick="item_click('item1')">
+                    <img style="width: 80px; border-radius: 80px;" src="img/item1.png">
+                    <br>
+                    <h3 id="item1_text" style="color: #005EC3;">끌레어</h3>
+                </div>
+                <div id="item2_border" style="display: inline-block; cursor: pointer; text-align: center; padding: 0 12px 11px 12px; border-bottom: 1px solid #B9B9B9; margin-left: -4px;" onclick="item_click('item2')">
+                    <img style="width: 80px; border-radius: 80px;" src="img/item2.png">
+                    <br>
+                    <h3 id="item2_text" style="color: #B9B9B9;">비토</h3>
+                </div>
+                <div id="item3_border" style="display: inline-block; cursor: pointer; text-align: center; padding: 0 12px 11px 12px; border-bottom: 1px solid #B9B9B9; margin-left: -4px;" onclick="item_click('item3')">
+                    <img style="width: 80px; border-radius: 80px;" src="img/item3.png">
+                    <br>
+                    <h3 id="item3_text" style="color: #B9B9B9;">윌러</h3>
+                </div>
+                <div id="item4_border" style="display: inline-block; cursor: pointer; text-align: center; padding: 0 12px 11px 12px; border-bottom: 1px solid #B9B9B9; margin-left: -4px;" onclick="item_click('item4')">
+                    <img style="width: 80px; border-radius: 80px;" src="img/item5.png">
+                    <br>
+                    <h3 id="item4_text" style="color: #B9B9B9;">로버</h3>
+                </div>
+            </div>
+        </div>
+        <div style="display: inline-block; width: 100vw; max-width: 500px; background-color: #F3F5FE; text-align: left; padding: 40px; box-sizing: border-box;">
+            <div style="background-color: #FFFFFF; padding: 20px; box-sizing: border-box; border-radius: 10px; text-align: center; box-shadow: 2px 2px 4px #CCD0D9; min-height: 160px;">
+                <div style="display: none;" id="ifable_none">
+                    <h2 style="margin-top: 46px;">검색 결과가 없습니다.</h2>
+                </div>
+                <div style="display: none;" id="ifable_box">
+                    <h2>고객님의 TV/모니터는</h2>
+                    <h2><b style="color: #E6E6E6;">(</b><b style="color: #005EC3;" id="item_text">끌레어</b><b style="color: #E6E6E6;">)</b><b>와 거치가 </b><b style="color: #36B448;" id="ifable">가능</b><b>합니다.</b></h2>
+                    <div id="addtional_pay" style="display: none; text-align: center; margin-bottom: -16px; margin-top: -6px;">
+                        <p style="display: inline-block; font-weight: bold; width: fit-content; padding: 4px 10px 4px 10px; border-radius: 6px; border: #000000 solid 1px; background-color: #FF6701; color: #000000;">* 베사확장판 추가구매 시 <span style="color: #FFFFFF;">거치 가능</span></p>
+                    </div>
+                    <input style="cursor: pointer;" type="button" value="구매하러 가기" id="paygo" onclick="window.open('https://ohou.se/productions/2151488')">
+                </div>
+            </div>
+        </div>
+        <div style="display: inline-block; width: 100vw; max-width: 500px; background-color: #FFFFFF; text-align: left; box-sizing: border-box;">
+            <table>
+                <tr>
+                    <th style="width: 30%;"></th>
+                    <td style="width: 35%;">자사제품 <span style="color: #FF0000;">기준</span></td>
+                    <td style="width: 35%; color: #005EC3;">고객님 모델 스펙</td>
+                </tr>
+                <tr>
+                    <th>모니터 무게</th>
+                    <td id="our1">10kg</td>
+                    <td id="you1"></td>
+                </tr>
+                <tr>
+                    <th>베사 사이즈<br><span style="font-size: 12px;">(가로x세로)</span></th>
+                    <td id="our2">75*75, 100*100</td>
+                    <td id="you2"></td>
+                </tr>
+                <tr>
+                    <th>베사 나사</th>
+                    <td id="our3">M4x12, M5x12</td>
+                    <td id="you3"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script>
+        item1_data = "";
+        item2_data = "";
+        item3_data = "";
+        item4_data = "";
+        item_weight = "";
+        item_vesa_size = "";
+        item_screw_size = "";
+
+        function item_click(item){
+            document.getElementById('item1_border').style.borderBottom = '1px solid #B9B9B9';
+            document.getElementById('item2_border').style.borderBottom = '1px solid #B9B9B9';
+            document.getElementById('item3_border').style.borderBottom = '1px solid #B9B9B9';
+            document.getElementById('item4_border').style.borderBottom = '1px solid #B9B9B9';
+            document.getElementById('item1_border').style.padding = '0 12px 11px 12px';
+            document.getElementById('item2_border').style.padding = '0 12px 11px 12px';
+            document.getElementById('item3_border').style.padding = '0 12px 11px 12px';
+            document.getElementById('item4_border').style.padding = '0 12px 11px 12px';
+            document.getElementById('item1_text').style.color = '#B9B9B9';
+            document.getElementById('item2_text').style.color = '#B9B9B9';
+            document.getElementById('item3_text').style.color = '#B9B9B9';
+            document.getElementById('item4_text').style.color = '#B9B9B9';
+            document.getElementById(item+'_border').style.borderBottom = '3px solid #005EC3';
+            document.getElementById(item+'_border').style.padding = '0 12px 10px 12px';
+            document.getElementById(item+'_text').style.color = '#005EC3';
+            document.getElementById('item_text').innerText = document.getElementById(item+'_text').innerText;
+            if(item == "item1"){
+                document.getElementById('paygo').setAttribute('onclick', "window.open('https://ohou.se/productions/2151488')");
+                document.getElementById('our1').innerText = "10kg";
+                document.getElementById('our2').innerText = "75*75, 100*100";
+                document.getElementById('our3').innerText = "M4x12, M5x12";
+                document.getElementById('ifable').innerText = "불가";
+                document.getElementById('ifable').style.color = "#FF6701";
+                document.getElementById("addtional_pay").style.display = "none";
+                if(item1_data != ""){
+                    document.getElementById('ifable').innerText = "가능";
+                    document.getElementById('ifable').style.color = "#36B448";
+                } else if(Number(item_weight.replace("kg", "")) <= 10.0 && item_vesa_size == "200*200"){
+                    document.getElementById("addtional_pay").style.display = "block";
+                }
+            } else if(item == "item2"){
+                document.getElementById('paygo').setAttribute('onclick', "window.open('https://ohou.se/productions/2146201')");
+                document.getElementById('our1').innerText = "40kg";
+                document.getElementById('our2').innerHTML = "200*200, 300*200,<br>300*300, 400*200,<br> 400*300, 400*400,<br> 600*400";
+                document.getElementById('our3').innerText = "M6x14, M8x16";
+                document.getElementById('ifable').innerText = "불가";
+                document.getElementById('ifable').style.color = "#FF6701";
+                document.getElementById("addtional_pay").style.display = "none";
+                if(item2_data != ""){
+                    document.getElementById('ifable').innerText = "가능";
+                    document.getElementById('ifable').style.color = "#36B448";
+                }
+            } else if(item == "item3"){
+                document.getElementById('paygo').setAttribute('onclick', "window.open('https://ohou.se/productions/2384552')");
+                document.getElementById('our1').innerText = "15kg";
+                document.getElementById('our2').innerHTML = "75*75, 100*100,<br>200*100, 200*200";
+                document.getElementById('our3').innerHTML = "M4x12, M5x12,<br>M6x14, M8x20";
+                document.getElementById('ifable').innerText = "불가";
+                document.getElementById('ifable').style.color = "#FF6701";
+                document.getElementById("addtional_pay").style.display = "none";
+                if(item3_data != ""){
+                    document.getElementById('ifable').innerText = "가능";
+                    document.getElementById('ifable').style.color = "#36B448";
+                }
+            } else if(item == "item4"){
+                document.getElementById('paygo').setAttribute('onclick', "window.open('https://ohou.se/productions/2681742')");
+                document.getElementById('our1').innerText = "50kg";
+                document.getElementById('our2').innerHTML = "200*200, 300*200,<br>300*300, 400*200,<br>400*300, 400*400,<br>600*400";
+                document.getElementById('our3').innerHTML = "M6x14, M8x16,<br>M6x30, M8x35";
+                document.getElementById('ifable').innerText = "불가";
+                document.getElementById('ifable').style.color = "#FF6701";
+                document.getElementById("addtional_pay").style.display = "none";
+                if(item4_data != ""){
+                    document.getElementById('ifable').innerText = "가능";
+                    document.getElementById('ifable').style.color = "#36B448";
+                }
+            }
+        }
+
+        function search_data(){
+            document.getElementById('loading').style.display = 'inline-block';
+            const url = 'https://api.moji.or.kr/greedyfarmers';
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            const requestData = {
+                tvmodel: document.getElementById('tvmodel').value
+            };
+            fetch(url, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(requestData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('you1').style.color = "#000000";
+                document.getElementById('you1').style.fontSize = "18px";
+                document.getElementById('you2').style.color = "#000000";
+                document.getElementById('you2').style.fontSize = "18px";
+                document.getElementById('you3').style.color = "#000000";
+                document.getElementById('you3').style.fontSize = "18px";
+                document.getElementById('loading').style.display = 'none';
+                item_click("item1");
+                document.getElementById('you1').innerText = "";
+                document.getElementById('you2').innerText = "";
+                document.getElementById('you3').innerText = "";
+                document.getElementById('ifable_box').style.display = 'none';
+                document.getElementById('ifable_none').style.display = 'none';
+                if(data["code"] == "NotFound"){
+                    document.getElementById('ifable_none').style.display = 'inline-block';
+                } else if(data["code"] == "novesa"){
+                    document.getElementById('ifable_box').style.display = 'inline-block';
+                    document.getElementById('you1').innerHTML = data["weight"];
+                    document.getElementById('you2').innerHTML = data["vesa_size"];
+                    document.getElementById('you3').innerHTML = data["screw_size"];
+                    if(data["weight"] == "cs" || data["weight"] == ""){
+                        document.getElementById('you1').innerHTML = "고객센터로 문의하세요";
+                        document.getElementById('you1').style.color = "#FF0000";
+                        document.getElementById('you1').style.fontSize = "12px";
+                    }
+                    if(data["vesa_size"] == "cs" || data["vesa_size"] == "" || data["vesa_size"] == "novesa"){
+                        document.getElementById('you2').innerHTML = "고객센터로 문의하세요";
+                        document.getElementById('you2').style.color = "#FF0000";
+                        document.getElementById('you2').style.fontSize = "12px";
+                    }
+                    if(data["screw_size"] == "cs" || data["screw_size"] == "" || data["screw_size"] == "novesa"){
+                        document.getElementById('you3').innerHTML = "고객센터로 문의하세요";
+                        document.getElementById('you3').style.color = "#FF0000";
+                        document.getElementById('you3').style.fontSize = "12px";
+                    }
+                    item_weight = data["weight"];
+                    item_vesa_size = data["vesa_size"];
+                    item_screw_size = data["screw_size"];
+                } else if(data["code"] == "cs"){
+                    document.getElementById('ifable_box').style.display = 'inline-block';
+                    document.getElementById('you1').innerHTML = data["weight"];
+                    document.getElementById('you2').innerHTML = data["vesa_size"];
+                    document.getElementById('you3').innerHTML = data["screw_size"];
+                    if(data["weight"] == "cs" || data["weight"] == ""){
+                        document.getElementById('you1').innerHTML = "고객센터로 문의하세요";
+                        document.getElementById('you1').style.color = "#FF0000";
+                        document.getElementById('you1').style.fontSize = "12px";
+                    }
+                    if(data["vesa_size"] == "cs" || data["vesa_size"] == ""){
+                        document.getElementById('you2').innerHTML = "고객센터로 문의하세요";
+                        document.getElementById('you2').style.color = "#FF0000";
+                        document.getElementById('you2').style.fontSize = "12px";
+                    }
+                    if(data["screw_size"] == "cs" || data["screw_size"] == ""){
+                        document.getElementById('you3').innerHTML = "고객센터로 문의하세요";
+                        document.getElementById('you3').style.color = "#FF0000";
+                        document.getElementById('you3').style.fontSize = "12px";
+                    }
+                    item_weight = data["weight"];
+                    item_vesa_size = data["vesa_size"];
+                    item_screw_size = data["screw_size"];
+                } else{
+                    document.getElementById('ifable_box').style.display = 'inline-block';
+
+                    document.getElementById('you1').innerHTML = data["weight"];
+                    document.getElementById('you2').innerHTML = data["vesa_size"];
+                    document.getElementById('you3').innerHTML = data["screw_size"];
+
+                    document.getElementById('our1').innerText = "10kg";
+                    // document.getElementById('our2').innerText = "-";
+                    // document.getElementById('our3').innerText = "-";
+                    document.getElementById('ifable').innerText = "불가";
+                    document.getElementById('ifable').style.color = "#FF6701";
+                    document.getElementById("addtional_pay").style.display = "none";
+                    if(data["item1"] != ""){
+                        document.getElementById('our2').innerText = data["vesa_size"];
+                        document.getElementById('our3').innerHTML = data["item1"];
+                        document.getElementById('ifable').innerText = "가능";
+                        document.getElementById('ifable').style.color = "#36B448";
+                    } else if(Number(item_weight.replace("kg", "")) <= 10.0 && data["vesa_size"] == "200*200"){
+                        document.getElementById("addtional_pay").style.display = "block";
+                    }
+                    item1_data = data["item1"];
+                    item2_data = data["item2"];
+                    item3_data = data["item3"];
+                    item4_data = data["item4"];
+                    item_weight = data["weight"];
+                    item_vesa_size = data["vesa_size"];
+                    item_screw_size = data["screw_size"];
+                }
+            })
+            .catch(error => {
+                alert("알 수 없는 오류가 발생했습니다.");
+            });
+        }
+    </script>
+</body>
+</html>
