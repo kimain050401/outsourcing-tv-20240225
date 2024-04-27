@@ -351,6 +351,12 @@
                     document.getElementById('you2').innerHTML = data["vesa_size"];
                     document.getElementById('you3').innerHTML = data["screw_size"];
 
+                    if(data["screw_size"] == "cs" || data["screw_size"] == ""){
+                        document.getElementById('you3').innerHTML = "고객센터로 문의하세요";
+                        document.getElementById('you3').style.color = "#FF0000";
+                        document.getElementById('you3').style.fontSize = "12px";
+                    }
+
                     document.getElementById('our1').innerText = "10kg";
                     // document.getElementById('our2').innerText = "-";
                     // document.getElementById('our3').innerText = "-";
